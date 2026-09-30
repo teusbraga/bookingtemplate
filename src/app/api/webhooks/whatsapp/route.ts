@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createAdminClient } from '@/lib/supabase/server';
+import { createAdminClient } from '@/lib/supabase/admin';
 
 // GET: Verificação de Webhook da Meta (WhatsApp Cloud API)
 export async function GET(request: NextRequest) {

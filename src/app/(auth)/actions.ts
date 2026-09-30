@@ -2,7 +2,7 @@
 
 import { redirect } from 'next/navigation';
 import { createClient } from '@/lib/supabase/server';
-import type { TipoUsuario } from '@/lib/supabase/types';
+import type { TipoUsuario } from '@/types/database';
 
 export async function loginAction(formData: FormData) {
   const email = formData.get('email') as string;
@@ -15,16 +15,12 @@ export async function loginAction(formData: FormData) {
 
   const supabase = await createClient();
 
-  const { error } = await supabase.auth.signInWithPassword({
-    email,
-    password,
-  });
+  const { error } = await supabase.auth.signInWithPassword({ email, password });
 
   if (error) {
     return { error: 'Credenciais inválidas: ' + error.message };
   }
 
-  // Verifica o tipo de usuário no profile para redirecionar corretamente
   const {
     data: { user },
   } = await supabase.auth.getUser();
@@ -40,16 +36,12 @@ export async function loginAction(formData: FormData) {
       redirect(redirectTo);
     }
 
-    if (profile?.tipo === 'medico') {
-      redirect('/medico');
-    } else if (profile?.tipo === 'admin') {
-      redirect('/admin');
-    } else {
-      redirect('/cliente');
-    }
+    if (profile?.tipo === 'medico') redirect('/medico/agenda');
+    else if (profile?.tipo === 'admin') redirect('/admin/dashboard');
+    else redirect('/cliente/consultas');
   }
 
-  redirect('/cliente');
+  redirect('/cliente/consultas');
 }
 
 export async function registerAction(formData: FormData) {
@@ -65,18 +57,11 @@ export async function registerAction(formData: FormData) {
 
   const supabase = await createClient();
 
-  // 1. Cria usuário no auth.users
-  const { data: authData, error: authError } = await supabase.auth.signUp({
-    email,
-    password,
-  });
+  const { data: authData, error: authError } = await supabase.auth.signUp({ email, password });
 
-  if (authError) {
-    return { error: authError.message };
-  }
+  if (authError) return { error: authError.message };
 
   if (authData.user) {
-    // 2. Cria registro correspondente em public.profiles
     const { error: profileError } = await supabase.from('profiles').insert({
       id: authData.user.id,
       nome,
@@ -85,12 +70,10 @@ export async function registerAction(formData: FormData) {
       tipo,
     });
 
-    if (profileError) {
-      return { error: 'Erro ao criar perfil: ' + profileError.message };
-    }
+    if (profileError) return { error: 'Erro ao criar perfil: ' + profileError.message };
   }
 
-  redirect('/confirmar');
+  redirect('/otp');
 }
 
 export async function logoutAction() {

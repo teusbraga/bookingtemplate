@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
-import type { OrigemMarcacao } from '@/lib/supabase/types';
+import type { OrigemMarcacao } from '@/types/database';
 
 interface CreateMarcacaoBody {
   cliente_id?: string;
