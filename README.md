@@ -1,36 +1,107 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 📅 Booking Template
 
-## Getting Started
+> **Template open-source de sistema de agendamento** com zero race conditions / zero overbooking, pronto para fork.  
+> Stack: **Next.js 15+ · TypeScript · Tailwind CSS · Supabase · Vercel**
 
-First, run the development server:
+---
+
+## ✨ Features
+
+- 🔒 **Zero Overbooking Garantido** — Constraint PostgreSQL `EXCLUDE USING gist (btree_gist + tstzrange)` impede concorrência a nível ACID no banco de dados.
+- 👤 **Multi-Role & RLS** — Áreas dedicadas para Paciente (`/cliente`), Médico (`/medico`) e Administrador (`/admin`) com Row Level Security granular.
+- 📅 **Slots Dinâmicos em Tempo Real** — Função `get_horarios_disponiveis` calcula horários livres e intervalos de pausa direto no PostgreSQL.
+- 📱 **WhatsApp Meta Cloud API Ready** — Rotas de webhook com idempotência estrita via `UNIQUE(message_id)` e máquina de estados em `public.conversas`.
+- 🚀 **Deploy One-Click na Vercel** — Configuração pronta com `vercel.json` e guia passo a passo.
+
+---
+
+## 🏗️ Stack
+
+| Camada | Tecnologia |
+|---|---|
+| Frontend + API | Next.js 15 (App Router) + TypeScript |
+| Estilização | Tailwind CSS v4 |
+| Banco de dados | Supabase (PostgreSQL 15+) |
+| Autenticação | Supabase Auth (SSR com cookies) |
+| Deploy | Vercel |
+
+---
+
+## 🚀 Quick Start Local
+
+### 1. Clonar o projeto
+
+```bash
+git clone https://github.com/teusbraga/bookingtemplate.git
+cd bookingtemplate
+npm install
+```
+
+### 2. Configurar variáveis de ambiente
+
+```bash
+cp .env.example .env.local
+```
+
+Edite `.env.local` com suas chaves do Supabase.
+
+### 3. Aplicar o Schema no Supabase
+
+No **SQL Editor** do seu projeto no Supabase, execute o conteúdo do arquivo:
+```
+supabase/migrations/001_initial_schema.sql
+```
+
+### 4. Executar localmente
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Acesse [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+---
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## ⚡ Deploy na Vercel
 
-## Learn More
+Para colocar o projeto no ar em produção, siga o guia detalhado em:
+📖 **[docs/DEPLOYMENT.md](docs/DEPLOYMENT.md)**
 
-To learn more about Next.js, take a look at the following resources:
+### Variáveis Obrigatórias no Painel da Vercel:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Adicione em **Project Settings** > **Environment Variables**:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```env
+NEXT_PUBLIC_SUPABASE_URL=https://seu-projeto.supabase.co
+NEXT_PUBLIC_SUPABASE_ANON_KEY=sua_anon_key_publica
+SUPABASE_SERVICE_ROLE_KEY=sua_service_role_key_secreta
+NEXT_PUBLIC_APP_URL=https://seu-app.vercel.app
+```
 
-## Deploy on Vercel
+---
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## 📁 Estrutura do Projeto
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```
+bookingtemplate/
+├── src/
+│   ├── app/
+│   │   ├── (auth)/             # Login, Cadastro e Confirmação
+│   │   ├── (dashboard)/
+│   │   │   ├── cliente/        # Portal do Paciente + Agendamento
+│   │   │   ├── medico/         # Portal do Médico + Expediente
+│   │   │   └── admin/          # Visão Geral + Auditoria de Marcações
+│   │   └── api/                # Route Handlers (/api/medicos, /api/marcacoes, webhooks)
+│   ├── components/             # Componentes reutilizáveis (SlotPicker, etc.)
+│   └── lib/supabase/           # Clientes SSR (browser, server, admin) e tipos Database
+├── supabase/migrations/        # Migração SQL com btree_gist e RLS
+├── docs/                       # Documentação de deploy e arquitetura
+├── vercel.json                 # Configurações de headers e região na Vercel
+└── Plano de execução/          # App interativa de referência do schema
+```
+
+---
+
+## 📄 Licença
+
+MIT — Livre para fork, modificação e uso comercial.
