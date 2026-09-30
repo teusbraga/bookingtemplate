@@ -42,6 +42,7 @@ export interface Database {
           created_at?: string;
           updated_at?: string;
         };
+        Relationships: [];
       };
       medicos: {
         Row: {
@@ -74,6 +75,15 @@ export interface Database {
           created_at?: string;
           updated_at?: string;
         };
+        Relationships: [
+          {
+            foreignKeyName: 'medicos_profile_id_fkey';
+            columns: ['profile_id'];
+            isOneToOne: true;
+            referencedRelation: 'profiles';
+            referencedColumns: ['id'];
+          }
+        ];
       };
       disponibilidades: {
         Row: {
@@ -112,6 +122,15 @@ export interface Database {
           created_at?: string;
           updated_at?: string;
         };
+        Relationships: [
+          {
+            foreignKeyName: 'disponibilidades_medico_id_fkey';
+            columns: ['medico_id'];
+            isOneToOne: false;
+            referencedRelation: 'medicos';
+            referencedColumns: ['id'];
+          }
+        ];
       };
       marcacoes: {
         Row: {
@@ -159,6 +178,22 @@ export interface Database {
           created_at?: string;
           updated_at?: string;
         };
+        Relationships: [
+          {
+            foreignKeyName: 'marcacoes_cliente_id_fkey';
+            columns: ['cliente_id'];
+            isOneToOne: false;
+            referencedRelation: 'profiles';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'marcacoes_medico_id_fkey';
+            columns: ['medico_id'];
+            isOneToOne: false;
+            referencedRelation: 'medicos';
+            referencedColumns: ['id'];
+          }
+        ];
       };
       conversas: {
         Row: {
@@ -191,6 +226,15 @@ export interface Database {
           created_at?: string;
           updated_at?: string;
         };
+        Relationships: [
+          {
+            foreignKeyName: 'conversas_cliente_id_fkey';
+            columns: ['cliente_id'];
+            isOneToOne: false;
+            referencedRelation: 'profiles';
+            referencedColumns: ['id'];
+          }
+        ];
       };
       mensagens_log: {
         Row: {
@@ -226,6 +270,7 @@ export interface Database {
           status?: string;
           created_at?: string;
         };
+        Relationships: [];
       };
       integracoes_google_calendar: {
         Row: {
@@ -264,7 +309,19 @@ export interface Database {
           created_at?: string;
           updated_at?: string;
         };
+        Relationships: [
+          {
+            foreignKeyName: 'integracoes_google_calendar_user_id_fkey';
+            columns: ['user_id'];
+            isOneToOne: true;
+            referencedRelation: 'profiles';
+            referencedColumns: ['id'];
+          }
+        ];
       };
+    };
+    Views: {
+      [_ in never]: never;
     };
     Functions: {
       get_horarios_disponiveis: {
@@ -278,6 +335,15 @@ export interface Database {
           disponivel: boolean;
         }[];
       };
+    };
+    Enums: {
+      tipo_usuario: TipoUsuario;
+      status_marcacao: StatusMarcacao;
+      origem_marcacao: OrigemMarcacao;
+      direcao_mensagem: DirecaoMensagem;
+    };
+    CompositeTypes: {
+      [_ in never]: never;
     };
   };
 }
