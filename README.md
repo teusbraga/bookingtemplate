@@ -98,8 +98,7 @@ bookingtemplate/
 │   └── lib/supabase/           # Clientes SSR (browser, server, admin) e tipos Database
 ├── supabase/migrations/        # Migração SQL com btree_gist e RLS
 ├── docs/                       # Documentação de deploy e arquitetura
-├── vercel.json                 # Configurações de headers e região na Vercel
-└── Plano de execução/          # App interativa de referência do schema
+└── vercel.json                 # Configurações de headers e região na Vercel
 ```
 
 ---

@@ -1,6 +1,0 @@
-{
-  "name": "Supabase Medical Booking Schema & Exclusion Constraints",
-  "description": "Production PostgreSQL schema with btree_gist exclusion constraints for medical appointment scheduling, WhatsApp bot state, and Google Calendar sync.",
-  "requestFramePermissions": [],
-  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
-}
