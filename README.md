@@ -3,6 +3,8 @@
 > **Template open-source de sistema de agendamento** com zero race conditions / zero overbooking, pronto para fork.  
 > Stack: **Next.js 15+ · TypeScript · Tailwind CSS · Supabase · Vercel**
 
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fteusbraga%2Fbookingtemplate&env=NEXT_PUBLIC_APP_URL&integration-ids=oac_V3JyConsumersAS)
+
 ---
 
 ## ✨ Features

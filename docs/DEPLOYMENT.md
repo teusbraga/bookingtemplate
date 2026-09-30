@@ -4,7 +4,17 @@ Este guia detalha o passo a passo para colocar o **Booking Template** em produç
 
 ---
 
-## 1. Importar o Repositório na Vercel
+## Opção A: Deploy Automático em 1-Clique (Recomendado)
+
+Clique no botão abaixo para criar o repositório e o banco Supabase automaticamente:
+
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fteusbraga%2Fbookingtemplate&env=NEXT_PUBLIC_APP_URL&integration-ids=oac_V3JyConsumersAS)
+
+> 💡 **Como funciona:** Este botão aciona a integração oficial do Supabase na Vercel. Você poderá criar um novo projeto no Supabase ou selecionar um existente durante o fluxo, e a Vercel preencherá as chaves `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY` e `SUPABASE_SERVICE_ROLE_KEY` de forma automática!
+
+---
+
+## Opção B: Importar Repositório Manualmente
 
 1. Acesse o painel da [Vercel](https://vercel.com/dashboard) e clique em **Add New...** > **Project**.
 2. Conecte sua conta do GitHub e selecione o repositório:
